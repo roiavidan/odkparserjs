@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <script src="js/parser.js"></script>
+    <script src="js/renderer.js"></script>
+
+</head>
+<body onselectstart="return false">
+
+<textarea id="xml" style="display:none;">
+<?xml version="1.0" encoding="UTF-8"?>
+<h:html xmlns="http://www.w3.org/2002/xforms" xmlns:h="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:jr="http://openrosa.org/javarosa">
+  <h:head>
+    <h:title>Untitled Form</h:title>
+    <model>
+      <instance>
+        <data id="build_Untitled-Form_1399237198">
+          <meta>
+            <instanceID/>
+          </meta>
+          <num1>
+            4
+          </num1>
+        </data>
+      </instance>
+      <itext>
+        <translation lang="eng">
+          <text id="/data/num1:label">
+            <value>enter a number</value>
+          </text>
+          <text id="/data/num1:hint">
+            <value>between 3 and 6</value>
+          </text>
+          <text id="/data/num1:constraintMsg">
+            <value>enter a number</value>
+          </text>
+        </translation>
+      </itext>
+      <bind nodeset="/data/meta/instanceID" type="string" readonly="true()" calculate="concat('uuid:', uuid())"/>
+      <bind nodeset="/data/num1" type="string" readonly="true()" constraint="(regex(., &amp;quot;^.{3,6}$&amp;quot;))" jr:constraintMsg="jr:itext('/data/num1:constraintMsg')"/>
+    </model>
+  </h:head>
+  <h:body>
+    <input ref="/destinstance">
+      <label ref="jr:itext('/data/num1:label')"/>
+      <hint ref="jr:itext('/data/num1:hint')"/>
+    </input>
+  </h:body>
+</h:html>
+</textarea>
+
+    <div id="output">
+    </div>
+
+
+
+    <script type="text/javascript"><!--
+        p = new ODKParser(HTMLRenderer.getFactory());
+        if (p.loads(document.getElementById('xml').innerText)) {
+            var html = '<h1>' + p.getTitle() + '</h1>';
+            var elems = p.getFormElements();
+            for (var i = 0; i < elems.length; i++) {
+                html += elems[i].getAsHTML();
+            }
+            document.getElementById('output').innerHTML = html;
+        }
+    //-->
+    </script>
+</body>
+</html>
